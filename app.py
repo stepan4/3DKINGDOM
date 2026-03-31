@@ -181,5 +181,3 @@ def privacy():
 @app.route('/terms')
 def terms():
     return render_template('terms.html')
-
-app.run(debug=True)
