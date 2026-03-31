@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <link rel="shortcut icon" href="/static/img/logo-Photoroom.png" type="image/png">
+    <link rel="stylesheet" href="/static/css/register.css">
+    <title>3DKINGDOM | Register 3D Models</title>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="div_galv">
+            <div class="brand-logo">
+                <a href="/" class="logo-link" aria-label="Главная страница">
+                    <img class="logo-img" src="/static/img/logo-Photoroom.png" alt="3DKINGDOM Logo" width="60"
+                        height="60">
+                    <h1 class="brand-name">3DKINGDOM</h1>
+                </a>
+            </div>
+
+            <nav class="nav">
+                <div class="submenu">
+                    <div class="menu">
+                        <ul class="ul_glav">
+                            <li class="li_title">
+                                <a href="/catalog" class="name_title">
+                                    <i class="fas fa-cube"></i> 3D Модели
+                                </a>
+                                <div class="div_ul_li">
+                                    <h1>Top Categories</h1>
+                                    <ul class="footer-links">
+
+                                        <li class="footer-link-item">
+                                            <a href="{{ url_for('catalog') }}" class="footer-link">
+                                                <i class="fas fa-th-large"></i> Все категории
+                                            </a>
+                                        </li>
+
+
+                                        <li class="footer-link-item">
+                                            <a href="{{ url_for('catalog', category='Персонажи') }}"
+                                                class="footer-link">
+                                                <i class="fas fa-user-astronaut"></i> Персонажи
+                                            </a>
+                                        </li>
+
+                                        <li class="footer-link-item">
+                                            <a href="{{ url_for('catalog', category='Техника') }}" class="footer-link">
+                                                <i class="fas fa-robot"></i> Техника
+                                            </a>
+                                        </li>
+
+                                        <li class="footer-link-item">
+                                            <a href="{{ url_for('catalog', category='Оружие') }}" class="footer-link">
+                                                <i class="fas fa-gun"></i> Оружие
+                                            </a>
+                                        </li>
+
+                                        <li class="footer-link-item">
+                                            <a href="{{ url_for('catalog', category='Машины') }}" class="footer-link">
+                                                <i class="fas fa-car"></i> Машины
+                                            </a>
+                                        </li>
+
+                                        <li class="footer-link-item">
+                                            <a href="{{ url_for('catalog', category='Архитектура') }}"
+                                                class="footer-link">
+                                                <i class="fas fa-mountain-sun"></i> Архитектура
+                                            </a>
+                                        </li>
+
+                                        <li class="footer-link-item">
+                                            <a href="{{ url_for('catalog', category='Здания') }}" class="footer-link">
+                                                <i class="fas fa-city"></i> Здания
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {% if session.get('user_id') %}
+
+                    <div class="search-container_profile">
+                        <form class="search-form" action="{{url_for('search')}}" role="search" method="post">
+                            <input class="search-input" name="category" type="search"
+                                placeholder="Поиск по категориям..." aria-label="Поиск">
+
+                            <button class="search-button" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+
+
+                    <div class="div_profile">
+                        <a class="profile" href="{{ url_for('profile') }}">Профиль</a>
+                    </div>
+
+                    {% else %}
+
+
+                    <div class="search-container">
+                        <form class="search-form" action="{{url_for('search')}}" role="search" method="post">
+                            <input class="search-input" name="category" type="search"
+                                placeholder="Поиск по категориям..." aria-label="Поиск">
+
+                            <button class="search-button" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="div_login">
+
+                        <a class="login" href="{{url_for('login')}}">
+                            <i class="log fas fa-sign-in-alt"></i>
+                            <span>Войти</span>
+                        </a>
+                        <span class="auth-divider"></span>
+                        <a class="registration" href="{{url_for('register')}}">
+                            <i class="reg fas fa-user-plus"></i>
+                            <span class="span-registr">Регистрация</span>
+                        </a>
+                    </div>
+
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <form class="form_register" action="{{url_for('register')}}" method="post">
+            <div class="title_register">
+                <div class="div_icon_glav">
+                    <img class="icon_register" src="/static/img/logo-Photoroom.png" alt="Logo">
+                    <h1 class="title_glav">3DKINGDOM</h1>
+                </div>
+                <div class="div_entrance_text">
+                    <h1 class="entrance">Создать аккаунт</h1>
+                    <p class="title_text">Присоединяйтесь к сообществу 3D художников</p>
+                </div>
+            </div>
+
+            <div class="div_form">
+                <div class="input_group">
+                    <label for="username" class="form_label">Имя пользователя</label>
+                    <input class="input_form" id="username" type="text" name="name"
+                        placeholder="Придумайте имя пользователя" required>
+                </div>
+
+                <div class="input_group">
+                    <label for="email" class="form_label">Email</label>
+                    <input class="input_form" id="email" type="email" name="email" placeholder="Введите ваш email"
+                        required>
+                </div>
+
+                <div class="input_group">
+                    <label for="password" class="form_label">Пароль</label>
+                    <input class="input_form" id="password" type="password" name="password"
+                        placeholder="Придумайте надежный пароль" required>
+                </div>
+
+                <div class="privacy-check">
+                    <input class="chackbox" type="checkbox" id="privacy" name="privacy" required>
+                    <label for="privacy" class="privacy-label">
+                        Я согласен с <a href="{{url_for('privacy')}}" target="_blank">политикой конфиденциальности</a>
+                        и <a href="{{url_for('terms')}}" target="_blank">условиями пользования</a>
+                    </label>
+                </div>
+
+                <button class="submit_btn" type="submit">Зарегистрироваться</button>
+            </div>
+        </form>
+    </main>
+
+
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="/static/img/logo-Photoroom.png" alt="3DKINGDOM" class="footer-logo-img">
+                        <span class="footer-logo-text">3DKINGDOM</span>
+                    </div>
+                    <p class="footer-description">
+                        Лучшая платформа для покупки и продажи высококачественных 3D моделей. Более 1000 моделей от
+                        топовых авторов.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://vk.com/steppan1" class="social-link">
+                            <i class="fab fa-vk"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3 class="footer-title">Поддержка</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link-item">
+                            <a href="https://vk.com/steppan1" class="footer-link">
+                                <i class="fas fa-chevron-right"></i> Сообщество
+                            </a>
+                        </li>
+                        <li class="footer-link-item">
+                            <a href="{{url_for('terms')}}" class="footer-link">
+                                <i class="fas fa-chevron-right"></i> Условия использования
+                            </a>
+                        </li>
+                        <li class="footer-link-item">
+                            <a href="{{url_for('privacy')}}" class="footer-link">
+                                <i class="fas fa-chevron-right"></i> Политика конфиденциальности
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 3DKINGDOM. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/del_profile.css">
+    <title>Подтверждение удаления профиля</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="profile_form animate__animated animate__fadeIn">
+            <h1>Удаление профиля</h1>
+
+            {% with messages = get_flashed_messages(with_categories=True)%}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="warning">{{message}}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{url_for('delete_profile')}}">
+                <div class="input-group">
+                    <label for="password">Для подтверждения введите пароль</label>
+                    <input type="password" name="password" id="password" placeholder="Ваш текущий пароль" required>
+                </div>
+                <button type="submit" class="del_prof">Подтвердить удаление</button>
+            </form>
+            <a class="glavna" href="{{url_for('profile')}}">Отмена, вернуться назад</a>
+        </div>
+    </div>
+</body>
+
+</html>

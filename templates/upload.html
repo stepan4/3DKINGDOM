@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3DKINGDOM | Загрузить модель</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/profile.css">
+</head>
+
+<body>
+
+    <main class="main-add-model">
+
+        <section class="container_add">
+
+            {% with messages = get_flashed_messages(with_categories=True)%}
+            {% if messages %}
+            {% for category, message in messages %}
+            <h1 class="warning">{{message}}</h1>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <div class="form-card animate__animated animate__fadeIn">
+                <div class="form-header">
+                    <i class="fas fa-cloud-upload-alt upload-main-icon"></i>
+                    <h1>Загрузка новой модели</h1>
+                    <p>Заполните данные о вашем проекте</p>
+                </div>
+
+                <form action="#" method="POST" enctype="multipart/form-data" class="upload-form">
+
+                    <div class="input-group">
+                        <label for="title">Название модели</label>
+                        <input type="text" id="title" name="title" placeholder="Например: Sci-Fi Robot Helmet" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="category">Категория</label>
+                        <select id="category" name="category">
+                            <option value="Оружие">Оружие</option>
+                            <option value="Роботы">Роботы</option>
+                            <option value="Машины">Машины</option>
+                            <option value="Архитектура">Архитектура</option>
+                            <option value="Персонажи">Персонажи</option>
+                            <option value="Здания">Здания</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="description">Описание</label>
+                        <textarea maxlength="260" id="description" name="description" rows="4"
+                            placeholder="Расскажите подробнее о вашей работе..."></textarea>
+                    </div>
+
+                    <div class="file-upload-container">
+                        <div class="drop-zone" id="drop-zone">
+                            <i class="fas fa-file-archive"></i>
+                            <p> </p>
+                            <button type="button" class="btn-browse" id="browseBtn">
+                                Выберите файл
+                            </button>
+                            <p class="p_file">Поддерживаемые форматы: GLTF, GLB</p>
+                            <input type="file" id="file-input" name="model_file" accept=".gltf,.glb" hidden>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="{{ url_for('profile') }}" class="btn-cancel">Отмена</a>
+                        <button type="submit" class="btn-submit">Опубликовать модель</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const browseBtn = document.getElementById('browseBtn');
+            const fileInput = document.getElementById('file-input');
+            const dropZone = document.getElementById('drop-zone');
+
+            // Открываем проводник при клике на красивую кнопку
+            browseBtn.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            // Показываем имя выбранного файла для лучшего UX
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    const fileName = e.target.files[0].name;
+
+                    // Ищем элемент для вывода имени или создаем новый
+                    let fileNameDisplay = dropZone.querySelector('.selected-file-name');
+                    if (!fileNameDisplay) {
+                        fileNameDisplay = document.createElement('p');
+                        fileNameDisplay.className = 'selected-file-name p_file';
+                        fileNameDisplay.style.color = 'var(--primary)';
+                        fileNameDisplay.style.fontWeight = '600';
+                        fileNameDisplay.style.marginTop = '15px';
+                        dropZone.appendChild(fileNameDisplay);
+                    }
+
+                    fileNameDisplay.textContent = `Выбран файл: ${fileName}`;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

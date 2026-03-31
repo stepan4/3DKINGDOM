@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3DKINGDOM | {{ model.title }}</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+    <link rel="shortcut icon" href="/static/img/logo-Photoroom.png" type="image/png">
+    <link rel="stylesheet" href="/static/css/model.css">
+</head>
+
+<body>
+    <main>
+        <section class="model-view-section animate__animated animate__fadeIn">
+            <a href="{{ url_for('catalog') }}" class="back-btn-ultra">
+                <i class="fas fa-arrow-left"></i>
+                <span>Вернуться в каталог</span>
+            </a>
+
+            <div class="model-container-grid">
+                <div class="viewer-wrapper">
+                    <div class="viewer-glass-frame" id="fullscreen-container">
+
+                        <model-viewer id="main-viewer" src="{{ url_for('static', filename=model.file_path) }}"
+                            alt="{{ model.title }}" auto-rotate camera-controls shadow-intensity="2" exposure="1"
+                            environment-image="neutral" loading="lazy">
+                        </model-viewer>
+
+                        <button id="fullscreen-btn" class="custom-fullscreen-btn">
+                            <i class="fas fa-expand"></i>
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="info-wrapper">
+                    <div class="info-card-glass">
+                        <div class="category-micro">{{ model.category }}</div>
+                        <h1 class="model-detail-title">{{ model.title }}</h1>
+
+                        <div class="divider-glow"></div>
+
+                        <div class="model-description">
+                            <h3>Описание проекта</h3>
+                            <p>{{ model.description }}</p>
+                        </div>
+
+                        <div class="specs-grid">
+                            <div class="spec-item">
+                                <span class="spec-label">Формат</span>
+                                <span class="spec-value">GLB / GLTF</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Статус</span>
+                                <span class="spec-value color-primary">Premium</span>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            {% if session.get('user_id') %}
+                            <a href="{{ url_for('static', filename=model.file_path) }}" download
+                                class="btn-download pulse">
+                                <i class="fas fa-download"></i>
+                                <span>Скачать модель</span>
+                            </a>
+                            {% else %}
+
+                            <a href="{{ url_for('register') }}" class="btn-download pulse">
+                                <i class="fas fa-download"></i>
+                                <span>Скачать модель</span>
+                            </a>
+                            {% endif %}
+
+                            <div class="stat-box-ultra">
+                                <i class="fas fa-shield-alt"></i>
+                                <div class="stat-text">
+                                    <span class="stat-label">Проверено</span>
+                                    <span class="stat-value">Безопасно</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            const container = document.getElementById('fullscreen-container');
+            const icon = fullscreenBtn.querySelector('i');
+
+            if (!fullscreenBtn || !container) {
+                console.error("Элементы для полноэкранного режима не найдены!");
+                return;
+            }
+
+            fullscreenBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement &&
+                    !document.webkitFullscreenElement &&
+                    !document.mozFullScreenElement &&
+                    !document.msFullscreenElement) {
+
+                    if (container.requestFullscreen) {
+                        container.requestFullscreen();
+                    } else if (container.webkitRequestFullscreen) {
+                        container.webkitRequestFullscreen();
+                    } else if (container.mozRequestFullScreen) {
+                        container.mozRequestFullScreen();
+                    } else if (container.msRequestFullscreen) {
+                        container.msRequestFullscreen();
+                    }
+
+                    icon.classList.replace('fa-expand', 'fa-compress');
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+
+                    icon.classList.replace('fa-compress', 'fa-expand');
+                }
+            });
+
+            const changeHandler = () => {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                    icon.classList.replace('fa-compress', 'fa-expand');
+                }
+            };
+
+            document.addEventListener('fullscreenchange', changeHandler);
+            document.addEventListener('webkitfullscreenchange', changeHandler);
+        });
+    </script>
+</body>
+
+</html>
